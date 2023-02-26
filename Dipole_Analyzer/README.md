@@ -1,9 +1,7 @@
-#Table of Contents
+# Table of Contents
+* [Introduction](#introduction)
+* [Dipole Analyzer Framework](#Dipole Analyzer Framework)
 
-* [Introduction](#Introduction)
-
-*[Dipole Analyzer Framework](#Dipole Analyzer Framework)
-
-#Introduction
-
-#Dipole Analyzer Framework
+<a name="introduction"></a>
+# Introduction
+# Dipole Analyzer Framework
