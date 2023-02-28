@@ -30,6 +30,7 @@ class Dipole_Analyzer():
         self.efield_state = []
         self.mag_list = []
         self.synced_frames = []
+        self.n_bonds = {}
 
 
     
@@ -68,6 +69,7 @@ class Dipole_Analyzer():
         fort_line_count = self.num_atoms + 3
         self.num_frames = int(len(xmol_lines)/xmol_line_count)
         xmol_frames = {}
+        fort_frames = {}
         new_lines = []
         
         for line in xmol_lines:
@@ -83,6 +85,7 @@ class Dipole_Analyzer():
         for i in range(self.num_frames):
             curr_xmol_frame = xmol_lines[i*xmol_line_count:(i+1)*xmol_line_count]
             curr_fort_frame = fort_lines[i*fort_line_count:(i+1)*fort_line_count]
+            self.n_bonds[str(i)] = int(curr_fort_frame[0].split()[-1])
             del curr_xmol_frame[0]
             del curr_xmol_frame[0]
             del curr_fort_frame[0]
@@ -93,8 +96,10 @@ class Dipole_Analyzer():
             curr_frame_charges = fort_frame_data[:,-1]
             xmol_frame_data = np.hstack((xmol_frame_data, curr_frame_charges.reshape(-1,1)))
             xmol_frames[str(i)] = xmol_frame_data
+            fort_frames[str(i)] = fort_frame_data
         print('Finished importing xmolout and fort.7!')
         self.xmol_frames = xmol_frames
+        self.fort_frames = fort_frames
         self.get_box_dims()
 
 
@@ -311,6 +316,55 @@ class Dipole_Analyzer():
 
 
     
+    def get_unit_pol(self):
+        p_list, n_list = [], []
+        for frame_index, frame in self.fort_frames.items():
+            positives, negatives = 0, 0
+            for k, line in enumerate(frame):
+                if line[1] in [2,3]:
+                    p_z = 0
+                    m_counter = 0             #number of non-metal neighbors for the metal atom
+                    m_coord = self.xmol_frames[frame_index][k, 1:-1]
+                    m_charge = line[-1]
+                    for i in range(self.n_bonds[frame_index]):
+                        if line[i+2] != 0:
+                            connected_nmatom = line[i+2]
+                            nm_line = frame[connected_nmatom-1, :]
+                            nm_charge = nm_line[-1]
+                            if nm_line[1] == 1:
+                                m_counter += 1
+                                nm_counter = 0
+                                for j in range(self.n_bonds[frame_index]):
+                                    if nm_line[j+2] != 0:
+                                        connected_matom = nm_line[j+2]
+                                        if frame[connected_matom-1, 1] in [2, 3]:
+                                            nm_counter += 1
+                                nm_charge /= nm_counter
+                                nm_coord = self.xmol_frames[frame_index][connected_nmatom-1, 1:-1]
+                                p_z += nm_coord[-1] * nm_charge
+                
+                    if m_counter != 0:
+                        p_z += m_coord[-1] * m_charge
+
+                    if p_z >= 0:
+                        positives += 1
+                    else:
+                        negatives += 1
+
+            p_list.append(positives)
+            n_list.append(negatives)
+
+        fig = plt.figure()
+        plt.plot(p_list, label='+ polarization')
+        plt.plot(n_list, label='- polarization')
+        plt.xlabel('Frame number')
+        plt.ylabel('Number of unitcells')
+        plt.legend()
+        fig.savefig('dipole_analysis/local_polarization/unicell_analysis.eps', bbox_inches='tight', format='eps')
+    
+    
+    
+    
     def get_coercive_fields(self):
         x = [100*i for i in self.mag_list]
         y = [Dipole_Analyzer.polar_scale_factor*i for i in self.total_polz_list]
@@ -359,7 +413,7 @@ class Dipole_Analyzer():
 
     def main(self):
         parser = argparse.ArgumentParser()
-        parser.add_argument("-m", "--method", help="Select option:\n1: Total polarization (report only)\n2: Total Polarization (Hysteresis included)\n3: Local polarization\n4:Both 3 and 4  ")
+        parser.add_argument("-m", "--method", help="Select option:\n1: Total polarization (report only)\n2: Total Polarization (Hysteresis included)\n3: Local polarization\n4: unit cell dipole analysis\n5: Both 2 and 4  ")
         parser.add_argument("-g", "--grids", help="For local dipole analysis, enter the number of X- Y- and Z-bins separated by spaces.")
         args = parser.parse_args()
         method = args.method
@@ -370,7 +424,7 @@ class Dipole_Analyzer():
         except ValueError:
             raise ValueError('That was not a valid number. Please try again!')
 
-        if method in [3, 4]:
+        if method in [3, 5]:
             try:
                 x, y, z = map(int, args.grids.split())
                 assert isinstance(x, int) and isinstance(y, int) and isinstance(z, int)
@@ -378,22 +432,24 @@ class Dipole_Analyzer():
                 raise ValueError('Numbers entered were not valid. Please try again!')
         
         instance = Dipole_Analyzer()
-        if method in [3, 4]:
+        if method in [3, 5]:
             instance.griddim = (x, y, z)
         instance.file_handler()
         instance.xmol_fort_handler()
         instance.eregime_handler()
+        instance.get_local_dipole()
         
-        if method in [2, 4]:
+        if method in [2, 5]:
             instance.get_total_dipole()
-            instance.get_hysteresis()
-        
-        if method in [3, 4]:
-            instance.get_local_dipole()
+            instance.get_coercive_fields()
+            instance.get_hysteresis()      
 
         if method == 1:
             instance.get_total_dipole()
             instance.get_coercive_fields()
+
+        if method == 4:
+            instance.get_unit_pol()
 
 if __name__ == '__main__':
     Dipole_Analyzer().main()
