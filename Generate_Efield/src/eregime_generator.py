@@ -3,13 +3,16 @@ import math
 import argparse
 
 def generate_eregime_in(max_magnitude, step_angle, iteration_step):
-    num_points = int(round((2 * math.pi) / step_angle)) + 1
+    num_points = int(round((2 * math.pi) / step_angle)) + 2
     with open("eregime.in", "w") as f:
         f.write("#Electric field regimes\n")
         f.write("#start #V direction1 Magnitude1(V/A) direction2 Magnitude2(V/A)\n")
         for i in range(num_points):
             angle = i * step_angle
-            magnitude = max_magnitude * math.sin(angle) if i != num_points - 1 else 0.0
+            if i == num_points - 1:
+                magnitude = max_magnitude
+            else:
+                magnitude = max_magnitude * math.sin(angle)
             f.write(f"{i*iteration_step:6d}     1        z              {magnitude: .4f}\n")
 
 if __name__ == "__main__":
@@ -17,7 +20,7 @@ if __name__ == "__main__":
     parser.add_argument("max_magnitude", type=float, help="The maximum magnitude of the sinusoidal electric field.")
     parser.add_argument("step_angle", type=float, help="The step angle in radians for generating the sinusoidal data.")
     parser.add_argument("iteration_step", type=int, help="The iteration step between data points in the output file.")
+    
     args = parser.parse_args()
 
     generate_eregime_in(args.max_magnitude, args.step_angle, args.iteration_step)
-
