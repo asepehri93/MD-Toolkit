@@ -38,10 +38,12 @@ def random_replace(metal_atoms, percentage):
     for i in indices:
         if metal_atoms[i][0] == atom_to_replace:
             metal_atoms[i][0] = atom_to_substitute
-
+    
+    print('Done!')
     return metal_atoms
 
 def uniform_replace(metal_atoms, percentage):
+    print('Generating uniform distribution ...')
     num_to_replace = int(len(metal_atoms) * percentage / 100)
     zn_indices = [i for i, atom in enumerate(metal_atoms) if atom[0] == atom_to_replace]
     zn_atoms = np.array([atom[1:] for atom in metal_atoms if atom[0] == atom_to_replace], dtype=float)
@@ -58,14 +60,15 @@ def uniform_replace(metal_atoms, percentage):
         index_to_add = np.argmax(nearest_neighbor_distances)
         indices.add(list(remaining_indices)[index_to_add])
 
-    print(len(indices))
     for index in indices:
         metal_atoms[zn_indices[index]][0] = atom_to_substitute
 
+    print('Done!')
     return metal_atoms
 
 
 def cluster_replace(metal_atoms, percentage):
+    print('Generating clustered distribution ...')
     num_to_replace = int(len(metal_atoms) * percentage / 100)
     zn_indices = [i for i, atom in enumerate(metal_atoms) if atom[0] == atom_to_replace]
     zn_atoms = np.array([atom[1:] for atom in metal_atoms if atom[0] == atom_to_replace], dtype=float)
@@ -87,6 +90,7 @@ def cluster_replace(metal_atoms, percentage):
     for index in indices:
         metal_atoms[zn_indices[index]][0] = atom_to_substitute
 
+    print('Done!')
     return metal_atoms
 
 
@@ -122,13 +126,13 @@ if __name__ == "__main__":
     metal_atoms = [atom for atom in metal_atoms if atom[0] == atom_to_replace]
 
     if mode == 1:
-        metal_atoms = random_replace(metal_atoms, atom_to_substitute, percentage)
+        metal_atoms = random_replace(metal_atoms, percentage)
         write_xyz('random.xyz', metal_atoms, nonmetal_atoms, header)
     elif mode == 2:
-        metal_atoms = uniform_replace(metal_atoms, atom_to_substitute, percentage)
+        metal_atoms = uniform_replace(metal_atoms, percentage)
         write_xyz('uniform.xyz', metal_atoms, nonmetal_atoms, header)
     elif mode == 3:
-        metal_atoms = cluster_replace(metal_atoms, atom_to_substitute, percentage)
+        metal_atoms = cluster_replace(metal_atoms, percentage)
         write_xyz('clustered.xyz', metal_atoms, nonmetal_atoms, header)
     else:
         print("Invalid mode. Choose 1, 2, or 3.")
