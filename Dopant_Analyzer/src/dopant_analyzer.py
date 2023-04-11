@@ -12,10 +12,13 @@ import random
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 
-def read_xyz(file_path):
+def read_xyz(file_path, mode_name):
     with open(file_path, 'r') as f:
         lines = f.readlines()
         header = lines[1:2]
+        header = header[0].split()
+        header[0] = header[0] + '_' + mode_name + '        '
+        header[1] = header[1] + '    '
         metal_atoms = [line.strip().split() for line in lines[2:] if line.startswith(atom_to_replace)]
         nonmetal_atoms = [line.strip().split() for line in lines[2:] if not line.startswith(atom_to_replace)]
 
@@ -24,7 +27,7 @@ def read_xyz(file_path):
 def write_xyz(file_path, metal_atoms, nonmetal_atoms, header):
     with open(file_path, 'w') as f:
         f.write(f"{len(metal_atoms) + len(nonmetal_atoms)}\n")
-        f.write(''.join(header))
+        f.write(' '.join(header) + '\n')
         for atom in metal_atoms:
             f.write(f"{' '.join(atom)}\n")
         for atom in nonmetal_atoms:
@@ -122,16 +125,26 @@ if __name__ == "__main__":
     percentage = float(sys.argv[3])
     mode = int(sys.argv[4])
 
-    metal_atoms, nonmetal_atoms, header = read_xyz('xmolout')
+    if mode == 1:
+        mode_name = 'Random_distr'
+    elif mode == 2:
+        mode_name = 'Uniform_distr'
+    elif mode == 3:
+        mode_name = 'Clustered_distr'
+
+    metal_atoms, nonmetal_atoms, header = read_xyz('xmolout', mode_name)
     metal_atoms = [atom for atom in metal_atoms if atom[0] == atom_to_replace]
 
     if mode == 1:
+        mode_name = 'Random_distr'
         metal_atoms = random_replace(metal_atoms, percentage)
         write_xyz('random.xyz', metal_atoms, nonmetal_atoms, header)
     elif mode == 2:
+        mode_name = 'Uniform_distr'
         metal_atoms = uniform_replace(metal_atoms, percentage)
         write_xyz('uniform.xyz', metal_atoms, nonmetal_atoms, header)
     elif mode == 3:
+        mode_name = 'Clustered_distr'
         metal_atoms = cluster_replace(metal_atoms, percentage)
         write_xyz('clustered.xyz', metal_atoms, nonmetal_atoms, header)
     else:
