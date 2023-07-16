@@ -37,6 +37,9 @@ Note that since, in this example, the applied electric field is more than one cy
 
 2. **Generate the hysteresis plots and report the calculated coercive fields:** This option would also save a '.eps' format image of the hysteresis in path: "dipole_analysis > total_pilarization". In addition, a csv file will be saved, showing the total polarization of the system calculated for each frame (PE.csv).
 
-![Alt Text](images/hyst.png)
+<div align="center">
+  <img src="images/hyst.png" alt="Intro to MD-Toolkit" width="800px">
+</div>
+
 
 3. **Local polarization analysis:** This option divides the slab into a number of user-specified grids in X-, Y-, and Z-directions, and calculates the polarization for each grid. This option is used to observe the local polarization trends such as formation of domains and domain-wall migration.
