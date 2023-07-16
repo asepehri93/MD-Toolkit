@@ -80,5 +80,8 @@ Cation misfit has been known as a novel pathway to deviate from von-Neumann stru
   <img src="images/dopant.png" alt="dopant placement" width="300px">
 </div>
 
-<div align="center"><strong>Figure 6. Doping results with three placement condigurations.</strong></div>
+<div align="center"><strong>Figure 6. Doping results with three placement configurations.</strong></div>
 <br>
+
+
+## Electric Field Generator
