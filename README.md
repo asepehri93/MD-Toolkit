@@ -45,3 +45,13 @@ Note that since, in this example, the applied electric field is more than one cy
 
 
 3. **Local polarization analysis:** This option divides the slab into a number of user-specified grids in X-, Y-, and Z-directions, and calculates the polarization for each grid. This option is used to observe the local polarization trends such as formation of domains and domain-wall migration.
+
+<div align="center">
+  <video width="400" controls>
+    <source src="images/local.mov" type="video/quicktime">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<div align="center"><strong>Figure 2. A video showcasing the MD-Toolkit in action.</strong></div>
+
