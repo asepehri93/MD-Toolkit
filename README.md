@@ -41,5 +41,7 @@ Note that since, in this example, the applied electric field is more than one cy
   <img src="images/hyst.png" alt="Intro to MD-Toolkit" width="300px">
 </div>
 
+<div align="center"><strong>Figure 2. Hysteresis plot for ZnO.</strong></div>
+
 
 3. **Local polarization analysis:** This option divides the slab into a number of user-specified grids in X-, Y-, and Z-directions, and calculates the polarization for each grid. This option is used to observe the local polarization trends such as formation of domains and domain-wall migration.
