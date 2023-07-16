@@ -48,7 +48,7 @@ Note that since, in this example, the applied electric field is more than one cy
 
 <div align="center">
   <video width="400" controls>
-    <source src="images/local.mov" type="video/quicktime">
+    <source src="images/local_pol.mov" type="video/quicktime">
     Your browser does not support the video tag.
   </video>
 </div>
