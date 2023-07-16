@@ -50,5 +50,5 @@ Note that since, in this example, the applied electric field is more than one cy
   <img src="images/local_pol.png" alt="A snapshot of the local polarization analysis showing the domain-wall at Z=150 A" width="400px">
 </div>
 
-<div align="center"><strong>Figure 1. A snapshot of the local polarization analysis showing the domain-wall at Z=150 A.</strong></div>
+<div align="center"><strong>Figure 3. A snapshot of the local polarization analysis showing the domain-wall at Z=150 A.</strong></div>
 
