@@ -38,7 +38,7 @@ Note that since, in this example, the applied electric field is more than one cy
 2. **Generate the hysteresis plots and report the calculated coercive fields:** This option would also save a '.eps' format image of the hysteresis in path: "dipole_analysis > total_pilarization". In addition, a csv file will be saved, showing the total polarization of the system calculated for each frame (PE.csv).
 
 <div align="center">
-  <img src="images/hyst.png" alt="Intro to MD-Toolkit" width="800px">
+  <img src="images/hyst.png" alt="Intro to MD-Toolkit" width="300px">
 </div>
 
 
