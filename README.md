@@ -25,3 +25,4 @@ Python dipole_analyzer.py -h
 #Execute the Dipole Analyzer module:
 Python dipole_analyzer.py -m 1
 ```
+![Alt Text](images/dipole_1.png)
