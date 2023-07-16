@@ -85,3 +85,6 @@ Cation misfit has been known as a novel pathway to deviate from von-Neumann stru
 
 
 ## Electric Field Generator
+A sinusoidal electric field is desired for the purpose of analyzing ferroelectric switching. This feature generates the 'eregime.in' file needed to define the electric field regime. The parameters are as follows:
+
+![Alt Text](images/efield.png)
