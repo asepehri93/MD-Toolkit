@@ -1,7 +1,8 @@
 # MD-toolkit
 
 MD-toolkit is a Python-based module designed to facilitate complex tasks involved in Molecular Dynamics (MD) simulations and materials analysis. It offers a range of tools specifically tailored for MD analysis and manipulation. Currently, the code supports ADF (Amsterdam Density Functional) software, with plans to extend compatibility to other MD software packages such as LAMMPS in the future.
-![Alt Text](images/intro.png){: width="30px" height="30px" style="float: right; margin-left: 10px;"}
+<img src="images/intro.png" alt="Introduction to MD-Toolkit" width="400" height="300" style="float: right; margin-left: 10px;">
+
 ## Table of Contents
 
 - [Dipole Analyzer](#dipole-analyzer)
