@@ -33,7 +33,7 @@ Python dipole_analyzer.py -m 1
 ```
 ![Alt Text](images/dipole_1.png)
 
-    Note that since, in this example, the applied electric field is more than one cycle of a sinusoidal function, there are more than two values of hysteresis reported.
+Note that since, in this example, the applied electric field is more than one cycle of a sinusoidal function, there are more than two values of hysteresis reported.
 
 2. **Generate the hysteresis plots and report the calculated coercive fields:** This option would also save a '.eps' format image of the hysteresis in path: "dipole_analysis > total_pilarization". In addition, a csv file will be saved, showing the total polarization of the system calculated for each frame (PE.csv).
 
